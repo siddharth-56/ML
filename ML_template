@@ -1,0 +1,69 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct 11 12:53:41 2019
+
+@author: siddharth
+"""
+""" please before Compling this code in your local machine Please download 
+    all the required Packages of sklearn 
+    and place wdbc.names in the same folder in which yuou are kepping you files
+    
+"""
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import LabelEncoder
+import pandas as pd
+import numpy as np
+df = pd.read_csv('wdbc.data',header = None)    
+#print(df.head(30)) # if you want to visulize the data please uncomment 
+Y = df.iloc[:,1].values # Selecting The Output colunm 
+X =df.iloc[:,2:].values # All the values apart from the 
+le  = LabelEncoder()
+Y = le.fit_transform(Y)
+#split the data in two  parts test and train
+X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.3)
+forest = RandomForestClassifier(criterion = 'entropy', n_estimators = 10)
+sc = StandardScaler()
+
+#applied the model with Training Data
+forest.fit(X_train,Y_train)
+#print(X_train)
+#Predicting the data using test set 
+Y_pred = forest.predict(X_test)
+#ideal Output should be zero
+print((Y_pred - Y_test).sum(),"uncertainty" )
+
+#--------
+
+# Testing Other Results 
+
+"""
+Use This Peice of code only when you want to test other data 
+
+B = [13.54,14.36,87.46,566.3,0.09779,0.08129,0.06664,0.04781,0.1885,0.05766,0.2699,0.7886,2.058,23.56,0.008462,0.0146,0.02387,0.01315,0.0198,0.0023,15.11,19.26,99.7,711.2,0.144,0.1773,0.239,0.1288,0.2977,0.07259]
+M = [16.02,23.24,102.7,797.8,0.08206,0.06669,0.03299,0.03323,0.1528,0.05697,0.3795,1.187,2.466,40.51,0.004029,0.009269,0.01101,0.007591,0.0146,0.003042,19.19,33.88,123.8,1150,0.1181,0.1551,0.1459,0.09975,0.2948,0.08452]
+ 
+final = np.column_stack((M,B))
+gg = final.transpose()
+#print(gg.shape)
+new_pred = forest.predict(gg)
+#print(new_pred)
+#print(type(new_pred))
+f =""
+l = ""
+if new_pred.item(0)==0 :
+    f='B'
+else:
+    f='M'
+if new_pred.item(0)==0:
+
+"""
+                 l='B'
+else:
+    l='M'
+print("the first data set is ",f)
+print(" The scecond data set is ",l)
+
+
+
