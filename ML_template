@@ -56,7 +56,7 @@ if new_pred.item(0)==0 :
     f='B'
 else:
     f='M'
-if new_pred.item(0)==0:
+if new_pred.item(1)==0:
 
 """
                  l='B'
